@@ -124,6 +124,13 @@ function App() {
 
     function handleSearchMovies(movies, keyWord) {
         const filteredMovies = movies.filter((movie) => {
+            if(isShortMoviesChecked) {
+                if(movie.duration <= 40) {
+                    return movie.nameRU?.includes(keyWord)
+                }
+                return
+            }
+
             return movie.nameRU?.includes(keyWord)
         });
         return filteredMovies;
