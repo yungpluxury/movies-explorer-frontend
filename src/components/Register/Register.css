@@ -85,6 +85,24 @@
     transition: opacity 0.3s ease-in-out;
 }
 
+.auth__submit-error {
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 16px;
+    text-align: center;
+    color: #FF004C;
+    width: 100%;
+    min-height: 16px;
+    margin-bottom: 10px;
+}
+
+.auth__submit-button_disabled {
+    background-color: #F8F8F8;
+    color: #C2C2C2;
+}
+
 .auth__submit-button:hover {
     cursor: pointer;
     opacity: 0.8;

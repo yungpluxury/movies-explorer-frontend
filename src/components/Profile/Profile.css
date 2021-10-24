@@ -81,6 +81,24 @@
     padding: 9px 15px;
 }
 
+.profile__form-message {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    min-height: 13px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile__form-message_type_error {
+    color: #FF004C;
+}
+
+.profile__form-message_type_success {
+    color: #2BE080;
+}
+
 .profile__button_type_edit {
     background: #FFFFFF;
     transition: opacity 0.3s;

@@ -53,6 +53,22 @@
     height: 100%;
 }
 
+.search__form-error {
+    position: absolute;
+    display: inline-block;
+    color: #FF004C;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    left: 25%;
+    bottom: -50%;
+}
+
+.search__form-error_hidden {
+    display: none;
+}
+
 .search__form-input::placeholder {
     font-style: normal;
     font-weight: 500;
