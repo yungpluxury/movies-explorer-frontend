@@ -1,73 +1,123 @@
-import React from "react";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import './Profile.css';
-import Header from "../Header/Header";
-import {Link} from "react-router-dom";
-import {useFormWithValidation} from "../../utils/useForm";
-import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 
+function Profile( {onSignOut, onUpdateUser, onError} ) {
 
-function Profile(props) {
-    const {values, setValues, handleChange, errors, isFormValid} = useFormWithValidation();
-    const [isFormDisabled, setIsFormDisabled] = React.useState(true);
+  const currentUser = React.useContext(CurrentUserContext);
+  const [ name, setName ] = React.useState('');
+  const [ email, setEmail ] = React.useState('');
+  const [ nameErrMessage, setNameErrMessage ] = React.useState('');
+  const [ emailErrMessage, setEmailErrMessage ] = React.useState('');
+  const [ formValid, setFormValid ] = React.useState(false);
 
-    const currentUser = React.useContext(CurrentUserContext);
+  React.useEffect(() => {
+    setName(currentUser.name);
+    setEmail(currentUser.email);
+  }, [currentUser]);
 
-    React.useEffect(() => {
-        setValues(currentUser);
-    }, [currentUser, setValues]);
-
-    function handleEditProfileClick(e) {
-        e.preventDefault();
-
-        setIsFormDisabled(false);
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+    const regex = /^[a-zа-яё\-\s]+$/i;
+    if (!regex.test(String(e.target.value).toLowerCase()) || (e.target.value.length < 2) || (e.target.value.length > 40) ) {
+      setNameErrMessage('Некорректное имя пользователя');
+    } else {
+      setNameErrMessage('');
     }
+  }
 
-    function handleSubmit(e) {
-        e.preventDefault();
-
-        props.onChangeUser(values.name, values.email);
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    const regex = /^[^@]+@[^@.]+\.[^@]+$/;
+    if (!regex.test(String(e.target.value).toLowerCase()) ) {
+      setEmailErrMessage('Некорректный email');
+    } else if (e.target.value === currentUser.email) {
+      setEmailErrMessage('Эта почта занята');
+    } else {
+      setEmailErrMessage('');
     }
+  }
 
-    React.useEffect(() => {
-        setIsFormDisabled(props.isUpdateSuccess);
-    },[props.isUpdateSuccess, props.onChangeUser])
+  React.useEffect(() => {
+    if (nameErrMessage.length > 0 || emailErrMessage.length > 0) {
+      setFormValid(false);
+      return;
+    }
+    if (!name || !email) {
+      setFormValid(false);
+      return;
+    }
+    if (name === currentUser.name && email === currentUser.email) {
+      setFormValid(false);
+      return;
+    }
+     else {
+      setFormValid(true);
+    }
+  }, [emailErrMessage, nameErrMessage, name, email, currentUser.name, currentUser.email])
 
-    React.useEffect(() => {
-        if(props.isSaving) {
-            setIsFormDisabled(true);
-        }
-    }, [props.isSaving])
+  function handleSubmit(e) {
+    e.preventDefault();
+    const regex = /^[^@]+@[^@.]+\.[^@]+$/;
+    if (name && email) {
 
-    return (
-        <>
-            <Header loggedIn={props.loggedIn} />
-            <section className="profile">
-                <h2 className="profile__title">Привет, {currentUser.name}!</h2>
-                <form className="profile__form" onSubmit={handleSubmit}>
-                    <fieldset className="profile__fields">
-                        <div className="profile__form-input">
-                            <p className="profile__form-input-name">Имя</p>
-                            <input type="text" name="name" pattern="[а-яА-Яa-zA-ZёË\- ]{1,}" className="profile__form-input-field" placeholder="Максим" value={values.name || ''} onChange={handleChange} disabled={isFormDisabled} required/>
-                        </div>
-                        <span className="profile__input-error">{errors.name}</span>
-                        <div className="profile__form-input">
-                            <p className="profile__form-input-name">Email</p>
-                            <input type="text" name="email" className="profile__form-input-field" placeholder="pochta@yandex.ru" value={values.email || ''} onChange={handleChange}
-                                   disabled={isFormDisabled}
-                                   required/>
-                        </div>
-                        <span className="profile__input-error">{errors.email}</span>
-                    </fieldset>
-                    <span className={`profile__form-message ${props.isUpdateSuccess ? 'profile__form-message_type_success' : 'profile__form-message_type_error'}`}>{props.message}</span>
-                    {isFormDisabled ? <button className="profile__button profile__button_type_edit" onClick={handleEditProfileClick}>Редактировать</button> :
-                        <button type="submit" disabled={!isFormValid}
-                        className={`profile__button profile__button_type_save ${isFormValid ? '' : 'profile__button_type_save_disabled'}`}>Сохранить</button>}
-                </form>
-                <Link to="/" className={isFormDisabled ? 'profile__signout-link' : 'profile__signout-link no-display'} onClick={props.onSignOut}>Выйти из аккаунта</Link>
-            </section>
-        </>
+      if (regex.test(String(email).toLowerCase()) ){
+        onUpdateUser({
+          name: name,
+          email: email,
+        });
+      };
+    }
+  }
 
-    )
+  return(
+    <section className="profile">
+      <p className="profile__welcomeMessage">
+        Привет, {name}!
+      </p>
+      <form className="profile__form" onSubmit={handleSubmit} noValidate>
+        <div className="profile__group">
+          <label htmlFor="profile-name" className="profile__label">Имя</label>
+          <input
+            className="profile__input"
+            id="profile-name"
+            type="text"
+            name="userName"
+            value={name}
+            onChange={e => {handleNameChange(e)}}
+          />
+        </div>
+        <span className={
+          nameErrMessage
+          ?
+          `register__error-message` : `register__error-message_inactive` }>
+            {nameErrMessage}</span>
+        <div className="profile__group">
+          <label htmlFor="profile-email" className="profile__label">E-mail</label>
+          <input
+            className="profile__input"
+            id="profile-email"
+            name="userEmail"
+            type="email"
+            minLength="2"
+            maxLength="40"
+            value={email}
+            onChange={e => {handleEmailChange(e)}}
+          />
+        </div>
+        <span className={
+          emailErrMessage
+          ?
+          `register__error-message` : `register__error-message_inactive` }>{emailErrMessage}</span>
+
+        <span>{onError}</span>
+        <button disabled={!formValid} type="submit" className="profile__btn">Редактировать</button>
+
+      </form>
+      <Link to="/" className="profile__link" onClick={onSignOut}>Выйти из аккаунта</Link>
+    </section>
+  )
 }
 
 export default Profile;

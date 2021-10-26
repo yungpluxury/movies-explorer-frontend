@@ -1,47 +1,56 @@
+import React from 'react';
+
 import './SearchForm.css';
+
 import search__icon from '../../images/search__icon.svg';
-import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
-import React from "react";
 
-function SearchForm(props) {
-    const [search, setSearch] = React.useState('');
-    const [isSearchValid, setIsSearchValid] = React.useState(true);
+function SearchForm({onSearch}) {
+  const [ movieSearch, setMovieSearch ] = React.useState('');
+  const [ movieErrMessage, setMovieErrMessage ] = React.useState('');
 
-    function handleSearchChange(e) {
-        setSearch(e.target.value);
-        setIsSearchValid(e.target.checkValidity())
+  const [ formValid, setFormValid ] = React.useState(false);
+
+  const handleMovieSearch = (e) => {
+    setMovieSearch(e.target.value);
+    if (e.target.value.length < 1 ) {
+      setFormValid(false);
+    } else {
+      setFormValid(true);
     }
+  }
 
-    function handleSearchSavedMovies(e) {
-        e.preventDefault();
-
-        props.onSearchSavedMovies(search);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formValid) {
+      setMovieErrMessage('Нужно ввести ключевое слово');
     }
-
-    function handleSearchMovies(e) {
-        e.preventDefault();
-
-        props.onSearchMovies(search);
+    else{
+      setMovieErrMessage('');
+      onSearch(movieSearch);
     }
-    return (
-        <section className="search">
-            <form className="search__form" onSubmit={props.saved ? handleSearchSavedMovies : handleSearchMovies}>
-                <div className="search__bar">
-                    <img src={search__icon} alt="Поиск" className="search__icon"/>
-                    <fieldset className="search__form-fields">
-                        <input type="text" name="search" placeholder="Фильм" className="search__form-input" value={search || ''} onChange={handleSearchChange} required/>
-                        <span className={`search__form-error ${isSearchValid ? 'search__form-error_hidden' : ''}`}>Нужно ввести ключевое слово</span>
-                    </fieldset>
-                    <button className="search__form-button" type="submit">Найти</button>
-                </div>
-                <div className="search__toggle-box">
-                    <FilterCheckbox onChange={props.onShortMoviesCheck} isChecked={props.isChecked}/>
-                    <h3 className="search__toggle-text">Короткометражки</h3>
-                </div>
+  }
 
-            </form>
-        </section>
-    )
+  return (
+    <section className="search">
+      <form onSubmit={handleSubmit} className="search__form" noValidate>
+      <div className="search__bar">
+      <img src={search__icon} alt="Поиск" className="search__icon"/>
+      <fieldset className="search__form-fields">
+        <input
+          className="search__form-input"
+          type="text"
+          placeholder="Фильм"
+          required
+          value={movieSearch}
+          onChange={e => {handleMovieSearch(e)}}
+        />
+        <span className="search__form-error">{movieErrMessage}</span>
+        </fieldset>
+        <button type="submit" className="search__form-button">Найти</button>
+        </div>
+      </form>
+    </section>
+  )
 }
 
 export default SearchForm;

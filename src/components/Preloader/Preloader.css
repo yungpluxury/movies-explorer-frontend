@@ -49,6 +49,12 @@
     padding: 20px;
 }
 
+.preloader__hidden {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
 .preloader__container {
     width: 100px;
     height: 100px;
@@ -61,7 +67,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: #2BE080;
+    background: #2be080;
     border-radius: 50px;
 }
 
@@ -77,16 +83,12 @@
 }
 
 .preloader__round::after {
-    background: white;
+    background: #f9f9f9;
     animation: preloader-inside-white 1s ease-in-out infinite;
 }
 
 .preloader__round::before {
     z-index: 10;
-    background: #2BE080;
+    background: #2be080;
     animation: preloader-inside-red 1s ease-in-out infinite;
-}
-
-.preloader__no-display {
-    display: none;
 }

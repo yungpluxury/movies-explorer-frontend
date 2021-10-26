@@ -1,43 +1,47 @@
-import {Link} from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 import './Navigation.css';
-import React from "react";
 
-function Navigation(props) {
-    const [isMenuShown, setIsMenuShown] = React.useState(false);
+function Navigation () {
 
-    function handleCloseMenuButtonClick() {
-        setIsMenuShown(false);
+  const [ isOpen, setIsOpen ] = React.useState(false);
+
+  function openMenu() {
+    if (!isOpen) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
     }
+  }
 
-    function handleOpenMenuButtonClick() {
-        setIsMenuShown(true);
-    }
-    return (
-        <div className="header__navigation">
-            <div className={props.loggedIn ? 'header__movies-navigation' : 'header__movies-navigation no-display'}>
-                <Link to="/movies" className="header__link header__link_type_movies">Фильмы</Link>
-                <Link to="/saved-movies" className="header__link header__link_type_movies">Сохранённые фильмы</Link>
-            </div>
-            <div className="header__login-navigation">
-                <Link to="/signup" className={props.loggedIn ? 'header__link header__link_type_register no-display' :
-                    'header__link header__link_type_register'}>Регистрация</Link>
-                {props.loggedIn ? <Link to="/profile" className="header__link header__link_type_account">Аккаунт</Link> :
-                    <Link to="/signin" className="header__link header__link_type_login">Войти</Link>}
-            </div>
-            <button className={props.loggedIn ? 'header__burger-button' : 'header__burger-button no-display'} onClick={handleOpenMenuButtonClick}></button>
-            <div className={isMenuShown ? 'header__burger-menu visible' : 'header__burger-menu'}>
-                <button className="header__burger-menu-close-button" onClick={handleCloseMenuButtonClick}></button>
-                <div className={isMenuShown ? 'header__burger-menu-container visible' : 'header__burger-menu-container'}>
-                    <div className="header__burger-menu-links">
-                        <Link to="/" className="header__burger-menu-link">Главная</Link>
-                        <Link to="/movies" className="header__burger-menu-link">Фильмы</Link>
-                        <Link to="/saved-movies" className="header__burger-menu-link">Сохранённые фильмы</Link>
-                        <Link to="/profile" className="header__burger-menu-link header__burger-menu-link_type_account">Аккаунт</Link>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+  return (
+    <>
+<Link to="/" className={!isOpen ? `header__logo-link header__logo-link_size` : `header__logo-link_disable`}/>
+    <nav className={ !isOpen ? `header__navigation header__navigation_burger_closed` : `header__navigation_burger_opened` }>
+
+
+      <button className={ isOpen ? `header__nav-btn_close` : `header__nav-btn ` } onClick={()=>openMenu()}/>
+
+      <Link to="/" className={ isOpen ?
+        `header__nav-link` : `header__logo-link_inactive` }>Главная</Link>
+
+      <div className={ !isOpen ? `header__nav_flex` : `header__nav_column` }>
+        <Link to="/movies" className={ !isOpen ?
+          `header__nav-link header__nav-link_inactive` : `header__nav-link_movies` }
+        >Фильмы</Link>
+        <Link to="/saved-movies" className= { !isOpen ?
+          `header__nav-link header__nav-link_ml header__nav-link_inactive` : `header__nav-link_saved-movies`}
+        >Сохранённые фильмы</Link>
+      </div>
+
+      <Link to="/profile" className= { !isOpen ?
+         `header__nav-link header__nav-link_inactive` : `header__nav-link_profile` }>
+          <p className="header__profile-account">Аккаунт</p>
+      </Link>
+
+    </nav>
+</>
+  )
 }
 
 export default Navigation;

@@ -1,60 +1,62 @@
-.search__toggle-label {
-    margin: 0 14px 0 29px;
+.filter-form {
+  margin-top: 10px;
+  max-width: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 25px;
 }
 
-.search__toggle {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
+
+.filter-form__title {
+  font-size: 13px;
+  line-height: 18px;
+  margin: 0;
+  margin-left: 14px;
+  color: black;
+  font-weight: 400;
+  display: block;
 }
 
-.search__toggle_visible {
-    background: url('../../images/toggle__off.svg') right no-repeat;
-    background-position: 20% 50%;
-    background-color: #A0A0A0;
-    border-radius: 20px;
-    display: inline-block;
-    vertical-align: middle;
-    width: 36px;
-    height: 20px;
-    transition: background-position 0.3s, background-color 0.3s;
+.filter-form__checkbox {
+  display: flex;
+  position: relative;
+  height: 20px;
+  background-color: #EBEBEB;
+  border-radius: 20px;
+  width: 36px;
 }
 
-.search__toggle_visible {
-    cursor: pointer;
+.filter-form__input {
+  visibility: hidden;
 }
 
-.search__toggle:checked + .search__toggle_visible {
-    background: url('../../images/toggle.svg') right no-repeat;
-    background-position: 80% 50%;
-    background-color: #2BE080;
+.filter-form__label {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  border-radius: 16px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+  background-color: #fff3f3;
 }
 
-.search__toggle:disabled + .search__toggle_visible {
-    background: url('../../images/toggle__off.svg');
-    background-position: 20% 50%;
-    background-color: #EBEBEB;
+.filter-form__input:checked + .filter-form__label  {
+  left: 70%;
+  background-color: #2be080;
 }
 
-@media(max-width: 920px) {
-    .search__toggle-label {
-        margin: 0 15px 0 19px;
-    }
-}
 
-@media(max-width: 720px) {
-    .search__toggle-box {
-        width: 100%;
-        display: flex;
-        position: absolute;
-        justify-content: center;
-        left: 0;
-        bottom: 44px;
-    }
-
-    .search__toggle-label {
-        margin: 0 13px 0 0;
-    }
+@media screen and (max-width: 900px) {
+  .filter-form {
+    width: 89%;
+    max-width: 708px;
+  }
 }

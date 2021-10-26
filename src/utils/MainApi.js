@@ -1,127 +1,88 @@
-const BASE_URL = 'https://api.pluxurymoviesexplorer.nomoredomains.monster';
-export function register (name, password, email) {
-    return fetch(`${BASE_URL}/signup`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-            "name": name,
-            "password": password,
-            "email": email
-        })
-    })
-        .then((res) => res.json())
+const BASE_URL = `https://api.pluxurymoviesexplorer.nomoredomains.monster`
+
+const checkResponse = (response) => response.ok ? response.json() : Promise.reject(`Упс, произошла ошибка: ${response.statusText}`);
+
+const getToken = () => {
+  const token = localStorage.getItem('jwt');
+  return {
+    'Accept': 'application/json',
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  }
 }
 
-export function authorize (password, email) {
-    return fetch(`${BASE_URL}/signin`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-            "password": password,
-            "email": email
-        })
-    })
-        .then((response => response.json()))
-        .then((data) => {
-            if (data.token){
-                localStorage.setItem('token', data.token);
-            }
-            return data;
-        })
+export const register = (password, email, name) => {
+  return fetch(`${BASE_URL}/signup`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(password, email, name)
+  })
+  .then(checkResponse)
 }
 
-export function getUserData(token) {
-    return fetch(`${BASE_URL}/users/me`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-        credentials: 'include'
+export const authorize = ({password, email}) => {
+  return fetch(`${BASE_URL}/signin`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password
     })
-        .then(res => res.json())
-        .then(data => data)
+  })
+  .then(checkResponse)
 }
 
-export function editUserData(token, name, email) {
-    return fetch(`${BASE_URL}/users/me`, {
-        method: 'PATCH',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-            name: name,
-            email: email
-        })
-    })
-        .then(res => res.json())
-        .then(data => data)
+export const getContent = (jwt) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwt}`
+    }
+  })
+  .then(checkResponse)
 }
 
-export function getSavedMovies(token) {
-    return fetch(`${BASE_URL}/movies`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-        credentials: 'include',
+export const updateUserInfo = (name, email) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'PATCH',
+    headers: getToken(),
+    body: JSON.stringify({
+      name: `${name}`,
+      email: `${email}`
     })
-        .then(res => res.json())
-        .then(data => data)
+  })
+  .then(checkResponse)
 }
 
-export function saveMovie(token, movie) {
-
-    return fetch(`${BASE_URL}/movies`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-            country: movie.country,
-            director: movie.director,
-            duration: movie.duration,
-            year: movie.year,
-            description: movie.description,
-            image: movie.image,
-            trailer: movie.trailer,
-            nameRU: movie.nameRU,
-            nameEN: movie.nameEN,
-            thumbnail: movie.thumbnail,
-            movieId: movie.movieId
-        })
-    })
-        .then(res => res.json())
-        .then(data => data)
+export const getSavedMovies = () => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'GET',
+    headers: getToken()
+  })
+  .then(checkResponse)
 }
 
-export function deleteMovie(token, movieId) {
-    return fetch(`${BASE_URL}/movies/${movieId}`, {
-        method: 'DELETE',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-        credentials: 'include',
-    })
-        .then(res => res.json())
-        .then(data => data)
+export const deleteCard = (id) => {
+  return fetch(`${BASE_URL}/movies/${id}`, {
+    method: 'DELETE',
+    headers: getToken()
+  })
+  .then(checkResponse)
+}
+
+export const addNewMovie = (movie) => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'POST',
+    headers: getToken(),
+    body: JSON.stringify(movie)
+  })
+  .then(checkResponse)
 }

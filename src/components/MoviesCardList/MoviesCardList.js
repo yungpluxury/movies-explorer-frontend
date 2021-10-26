@@ -1,77 +1,87 @@
+import React from 'react';
+import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
-import MoviesCard from "../MoviesCard/MoviesCard";
-import Preloader from "../Preloader/Preloader";
-import React from "react";
 
-function MoviesCardList(props) {
+function MoviesCardList ( {
+    isSavedMovie,
+    foundMovies,
+    onSavedMovie,
+    onDeleteMovie,
+    checkIfSaved,
+    savedMovies
+  } ) {
+  const isNotFound = foundMovies && foundMovies.length === 0 ? true : false;
 
-    const [initialCardsNumber, setInitialCardsNumber] = React.useState(() => {
-        const windowSize = window.innerWidth;
-        if(windowSize < 720) {
-            return 5
-        } else if(windowSize < 920) {
-            return 8
-        } else if(windowSize < 1279) {
-            return 12 }
-        else if(windowSize > 1279) {
-            return 12
-        }
-    }, []);
-    const [moreCardsNumber, setMoreCardsNumber] = React.useState(() => {
-        const windowSize = window.innerWidth;
-        if(windowSize < 720) {
-            return 2;
-        } else if(windowSize < 920) {
-            return 2
-        } else if(windowSize < 1279) {
-            return 3
-        } else if(windowSize > 1279) {
-            return 3
-        }
-    });
-
-    function handleScreenWidth () {
-        const windowSize = window.innerWidth;
-        if(windowSize < 720) {
-            setInitialCardsNumber(5)
-        } else if(windowSize < 920) {
-            setInitialCardsNumber(8)
-        } else if(windowSize < 1279) {
-            setInitialCardsNumber(12)
-        } else if(windowSize > 1279) {
-            setInitialCardsNumber(12)
-        }
+  const getMoviesNumber = () => {
+    if (window.innerWidth < 720) {
+      return 5;
+    }
+    if (window.innerWidth < 920) {
+      return 8;
+    }
+    if (window.innerWidth < 1279) {
+      return 12;
+    }
+    if (window.innerWidth > 1279) {
+      return 12;
     }
 
-    const displayedMovies = props.movies?.slice(0, initialCardsNumber);
+  }
 
-    function handleMoviesIncrease() {
-        setInitialCardsNumber(prevState => {return prevState + moreCardsNumber});
+  const [ moviesToRender, setMoviesToRender ] = React.useState(getMoviesNumber());
+  const getMoviesToShowNumber = () => {
+    if (window.innerWidth >= 900) {
+      return 3;
+    } else {
+      return 2;
+    }
+  }
+
+  React.useEffect(() => {
+    setTimeout(() => {
+     window.addEventListener('resize', () => getMoviesNumber());
+    }, 300);
+  }, []);
+
+  const handleShowMoreMovies = () => {
+    setMoviesToRender(moviesToRender + getMoviesToShowNumber());
+  };
+
+  const moviesToDisplay = !isSavedMovie && foundMovies ? foundMovies.slice(0, moviesToRender) : foundMovies;
+
+  return (
+    <section className="movies">
+      {isNotFound ? ( `Ничего не найдено`) :
+
+        (<ul className="movies__list">
+
+        {moviesToDisplay.map((movie) => {
+          const movieKey = movie.movieId;
+            return(
+              <MoviesCard
+                key={movieKey}
+                movie={movie}
+                isSavedMovie={isSavedMovie}
+                foundMovies={foundMovies}
+                onSavedMovie={onSavedMovie}
+                onDeleteMovie={onDeleteMovie}
+                checkIfSaved={checkIfSaved}
+                savedMovies={savedMovies}
+              />
+            );
+        })}
+
+      </ul>)
     }
 
-    React.useEffect(() => {
-        window.addEventListener('resize', handleScreenWidth);
-    }, []);
+     { <button
+        type="submit"
+        className={ !foundMovies || (!isSavedMovie && moviesToRender < foundMovies.length) ? `movies__more-button` : `movies__more-button_invisible`}
+        onClick={() => handleShowMoreMovies()}
+      >Ещё</button> }
 
-    return (
-        <section className="movies">
-            <Preloader isSearching={props.isSearching} />
-            <span className={`movies__error ${props.isErrorActive ? '' : 'no-display'}`}>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</span>
-            <span className={`movies__not-found ${props.notFound ? '' : 'no-display'}`}>Ничего не найдено</span>
-            <span className={`movies__no-saved ${(props.saved && props.movies.length === 0) ? '' : 'no-display'}`}>Вы пока что ничего не добавили в избранное</span>
-            <ul className="movies__list">
-                {displayedMovies?.map((movie, i) => {
-                    return (
-                        <MoviesCard movie={movie} key={i} saved={props.saved} onMovieSave={props.onMovieSave} onDeleteMovie={props.onDeleteMovie} savedMovies={props.savedMovies}/>
-                    )
-                })
-                }
-            </ul>
-
-            <button className={props.saved ? 'movies__more-button movies__more-button_invisible' :
-                `movies__more-button ${props.movies?.length === displayedMovies?.length ? 'movies__more-button_invisible' : ''}`} onClick={handleMoviesIncrease}>Еще</button>
-        </section>
-    )
+    </section>
+  )
 }
 
 export default MoviesCardList;
