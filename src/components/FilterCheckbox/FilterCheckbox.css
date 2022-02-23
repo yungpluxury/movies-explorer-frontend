@@ -1,0 +1,62 @@
+.filter-form {
+  margin-top: 10px;
+  max-width: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 25px;
+}
+
+
+.filter-form__title {
+  font-size: 13px;
+  line-height: 18px;
+  margin: 0;
+  margin-left: 14px;
+  color: black;
+  font-weight: 400;
+  display: block;
+}
+
+.filter-form__checkbox {
+  display: flex;
+  position: relative;
+  height: 20px;
+  background-color: #EBEBEB;
+  border-radius: 20px;
+  width: 36px;
+}
+
+.filter-form__input {
+  visibility: hidden;
+}
+
+.filter-form__label {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  border-radius: 16px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+  background-color: #fff3f3;
+}
+
+.filter-form__input:checked + .filter-form__label  {
+  left: 70%;
+  background-color: #2be080;
+}
+
+
+@media screen and (max-width: 900px) {
+  .filter-form {
+    width: 89%;
+    max-width: 708px;
+  }
+}
