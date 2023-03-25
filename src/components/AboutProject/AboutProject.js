@@ -2,16 +2,16 @@ import './AboutProject.css';
 
 function AboutProject() {
     return (
-        <section className="about-project">
+        <section className="about-project" id="about-project">
             <h2 className="about-project__heading section__heading">О проекте</h2>
             <div className="about-project__info">
                 <div className="about-project__info_card">
-                    <h3 className="about-project__info-heading">Дипломный проект включал 5 этапов</h3>
+                    <h3 className="about-project__info-heading">Проект включал 5 этапов</h3>
                     <p className="about-project__info-text">Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>
                 </div>
                 <div className="about-project__info_card">
-                    <h3 className="about-project__info-heading">На выполнение диплома ушло 5 недель</h3>
-                    <p className="about-project__info-text">У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
+                    <h3 className="about-project__info-heading">На выполнение проекта ушло 5 недель</h3>
+                    <p className="about-project__info-text">У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно завершить проект.</p>
                 </div>
             </div>
             <div className="about-project__steps">

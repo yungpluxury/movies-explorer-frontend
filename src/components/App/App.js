@@ -310,7 +310,7 @@ function App() {
         <Header
           isLoggedIn={isLoggedIn}/>
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/movies-explorer-frontend">
             <Main/>
           </Route>
 

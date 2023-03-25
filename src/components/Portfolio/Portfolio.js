@@ -11,7 +11,10 @@ function Portfolio() {
                     <a href="https://yungpluxury.github.io/russian-travel/" target="_blank" rel="noreferrer" className="portfolio__link">Адаптивный сайт</a>
                 </li>
                 <li className="portfolio__links-item">
-                    <a href="https://yungpluxury.students.nomoredomains.club/" target="_blank" rel="noreferrer" className="portfolio__link">Одностраничное приложение</a>
+                    <a href="https://yungpluxury.github.io/gpt3-project/" target="_blank" rel="noreferrer" className="portfolio__link">Одностраничное приложение</a>
+                </li>
+                <li className="portfolio__links-item">
+                    <a href="https://yungpluxury.github.io/online-store/" target="_blank" rel="noreferrer" className="portfolio__link">Приложение на Angular</a>
                 </li>
             </ul>
         </section>

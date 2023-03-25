@@ -3,11 +3,11 @@ import './Promo.css';
 function Promo() {
     return (
         <section className="promo">
-            <h1 className="promo__heading">Учебный проект студента факультета Веб-разработки.</h1>
+            <h1 className="promo__heading">Для использования сервиса войдите или зарегистрируйтесь.</h1>
             <ul className="promo__list">
-                <li className="promo__list-item">О проекте</li>
-                <li className="promo__list-item">Технологии</li>
-                <li className="promo__list-item">Студент</li>
+                <li className="promo__list-item"><a href="#about-project">О проекте</a></li>
+                <li className="promo__list-item"><a href="#tech">Технологии</a></li>
+                <li className="promo__list-item"><a href="#about-me">О себе</a></li>
             </ul>
         </section>
     )

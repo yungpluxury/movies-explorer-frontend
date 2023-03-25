@@ -13,7 +13,7 @@ function Header ({isLoggedIn}) {
   return (
     <header className="header">
       <Switch>
-          <Route exact path="/">
+          <Route exact path="/movies-explorer-frontend">
               {
                 isLoggedIn ? <Navigation/> : <NavigationMainPage/>
               }
