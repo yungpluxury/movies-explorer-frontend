@@ -1,4 +1,4 @@
-const BASE_URL = `https://yungpluxury.space`
+const BASE_URL = `https://api.yungpluxury.space`
 
 const checkResponse = (response) => response.ok ? response.json() : Promise.reject(`Упс, произошла ошибка: ${response.statusText}`);
 
