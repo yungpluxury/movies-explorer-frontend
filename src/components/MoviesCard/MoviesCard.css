@@ -54,6 +54,7 @@
   position: absolute;
   right: 14px;
   top: 14px;
+  border: none;
 }
 
 .movies__list-delete-button {

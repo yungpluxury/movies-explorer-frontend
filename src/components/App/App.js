@@ -210,7 +210,6 @@ function App() {
   }, [isLoggedIn]);
 
   function getInitialMovies (dataMovie) {
-
     setIsLoading(true);
     MoviesApi.getMovies()
       .then((data) => {
@@ -310,7 +309,7 @@ function App() {
         <Header
           isLoggedIn={isLoggedIn}/>
         <Switch>
-          <Route exact path="/movies-explorer-frontend">
+          <Route exact path="/">
             <Main/>
           </Route>
 
