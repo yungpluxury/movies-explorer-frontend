@@ -78,7 +78,7 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck()
-  }, []);
+  });
 
   const adjustData = (movies) => {
     const newMovies = movies.map((movie) => {
