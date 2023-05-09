@@ -78,7 +78,7 @@ function App() {
 
   React.useEffect(() => {
     tokenCheck()
-  });
+  }, []);
 
   const adjustData = (movies) => {
     const newMovies = movies.map((movie) => {
@@ -207,7 +207,7 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, [isLoggedIn, tokenCheck]);
+  }, [isLoggedIn]);
 
   function getInitialMovies (dataMovie) {
     setIsLoading(true);
