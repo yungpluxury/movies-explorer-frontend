@@ -1,4 +1,4 @@
-const BASE_URL = `https://api.yungpluxury.space`
+const BASE_URL = `https://yungpluxury-explorer-backend.netlify.app/.netlify/functions/api`
 
 const checkResponse = (response) => response.ok ? response.json() : Promise.reject(`Упс, произошла ошибка: ${response.statusText}`);
 
