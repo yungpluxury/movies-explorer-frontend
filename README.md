@@ -11,7 +11,7 @@ ___
 
 Ссылка на сервис - https://yungpluxury-explorer-frontend.netlify.app/
 
-Ссылка на API - https://api.yungpluxury.space/
+Ссылка на API - https://yungpluxury-explorer-backend.netlify.app/.netlify/functions/api
 
 Ссылка на репозиторий с API - https://github.com/yungpluxury/movies-explorer-api
 
